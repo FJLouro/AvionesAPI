@@ -15,10 +15,13 @@
 //Creamos las rutas nuevas que tendran en cuenta
 //los controllers programados en Controllers.
 // Ruta /fabricantes/...
-Route::resource('fabricantes','FabricanteController',['except'=>['create']]);
+Route::resource('fabricantes','FabricanteController',['except'=>['edit','create']]);
 
-// Ruta /aviones/...
-Route::resource('aviones','AvionController');
+//Recurso anidado /fabricantes/xx/aviones
+Route::resource('fabricantes.aviones','FabricanteAvionController',['except'=>['edit','create','show']]);
+
+// Ruta /aviones/... El resto de metolos los gestiona FabricanteAvion
+Route::resource('aviones','AvionController',['only'=>['index','show']]);
 
 // Ruta por defecto /
 Route::get('/', function(){
