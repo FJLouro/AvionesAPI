@@ -116,31 +116,31 @@ class FabricanteAvionController extends Controller {
 			$bandera=false;
 
 			//Actualizacion parcial de los datos
-			if($modelo != null && $modelo != '')
+			if($modelo)
 			{
 				$avion->modelo=$modelo;
 				$bandera=true;
 			}
 
-			if($longitud != null && $longitud != '')
+			if($longitud)
 			{
 				$avion->longitud=$longitud;
 				$bandera=true;
 			}
 
-			if($capacidad != null && $capacidad != '')
+			if($capacidad)
 			{
 				$avion->capacidad=$capacidad;
 				$bandera=true;
 			}
 
-			if($velocidad != null && $velocidad != '')
+			if($velocidad)
 			{
 				$avion->velocidad=$velocidad;
 				$bandera=true;
 			}
 
-			if($alcance != null && $alcance != '')
+			if($alcance)
 			{
 				$avion->alcance=$alcance;
 				$bandera=true;
