@@ -162,7 +162,7 @@ class FabricanteController extends Controller {
 			else
 			{
 				//Devolvemos un codigo 304 Not Modified
-				return response()->json(['errors'=>array(['code'=>304,'message'=>'Nose ha modificado ningun dato del fabricante'])],304);
+				return response()->json(['errors'=>array(['code'=>304,'message'=>'No se ha modificado ningun dato del fabricante'])],304);
 			}
 
 		}
@@ -208,8 +208,24 @@ class FabricanteController extends Controller {
 		// Borramos los datos del fabricante en la tabla.
 		//Devolvemos codigo 204, 204 significa "No Content"
 		//Este codigo no muestra texto en el body, si quisieramos ver el mensaje devolveriamos un codigo 200
+		//Antes de borralo comprobamos si tiene aviones y si es asi 
+		//sacamos un mensaje de error
+		//$aviones = $fabricante->aviones()->get;
+		$aviones = $fabricante->aviones;
+
+		if (sizeof($aviones) >0)
+		{
+			//Si quisieramos borrar todos los aviones del fabricante seria:
+			//$fabricante->aviones->delete();
+
+			//Devolvemos un codigo 409 Conflict.
+			return response()->json(['errors'=>Array(['code'=>409,'message'=>'Este fabricante posee aviones y no puede ser eliminado.'])],409);
+		}
+
+		//Eliminamos el fabricante si no tiene aviones
 		$fabricante->delete();
 
+		//Se devuelve codigo 204 No Content.
 		return response()->json(['code'=>204,'message'=>'Se ha eliminado correctamente el fabricante.'],204);
 	}
 
