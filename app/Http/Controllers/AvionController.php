@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 use App\Avion;
 
+//Activamos el uso de la caché
+use Illuminate\Support\Facades\Cache;
+
 class AvionController extends Controller {
 
 	/**
@@ -16,8 +19,18 @@ class AvionController extends Controller {
 	 */
 	public function index()
 	{
+		$listaAviones=Cache::remember('cacheTodosAviones',15/60,function()
+		{
+			return Aviones:all();
+		});
+
+
+		//Para devolver un JSON con codigo de respuesta HTTP. sin caché
+		//return response()->json(['status'=>'ok','data'=>Avion::all()],200);
+
+		//Devolvemos el JSON usando caché
 		//Devuelve la lista de todos los aviones
-		return response()->json(['status'=>'ok','data'=>Avion::all()],200);
+		return response()->json(['status'=>'ok','data'=>$listaAviones],200);
 	}
 
 
