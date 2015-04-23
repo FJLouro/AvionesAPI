@@ -21,7 +21,7 @@ class AvionController extends Controller {
 	{
 		$listaAviones=Cache::remember('cacheTodosAviones',15/60,function()
 		{
-			return Aviones:all();
+			return Aviones::all();
 		});
 
 

@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Cache;
 
 class FabricanteAvionController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('auth.basic',['only'=>['store','update','destroy']]);
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -31,7 +36,7 @@ class FabricanteAvionController extends Controller {
 			return response()->json(['errors'=>Array(['code'=>404,'message'=>'No se encuentra un fabricante con ese codigo.'])],404);
 		}
 
-		$listaAviones=Cache::remember('cacheaviones',1,function()
+		$listaAviones=Cache::remember('cacheaviones',1,function() use ($fabricante)
 		{
 			return $fabricante->aviones()->get();
 		});
