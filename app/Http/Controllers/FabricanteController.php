@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Cache;
 
 class FabricanteController extends Controller {
 
+	public function __construct()
+	{
+		$this->middleware('auth.basic',['only'=>['store','update','destroy']]);
+	}
+
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -30,14 +36,14 @@ class FabricanteController extends Controller {
 		//los registros obtenidos de Fabricante::all()
 		$fabricantes=Cache::remember('cachefabricantes',15/60,function()
 		{
-			return Fabricante:all();
+			return Fabricante::all();
 		});
 
 		//Para devolver un JSON con codigo de respuesta HTTP. sin caché
 		//return response()->json(['status'=>'ok','data'=>Fabricante::all()],200);
 
 		//Devolvemos el JSON usando caché
-		return response()->json(['status'=>'ok','data'=>$fabricante],200);
+		return response()->json(['status'=>'ok','data'=>$fabricantes],200);
 	}
 
 	/**
